@@ -36,8 +36,9 @@ public class A3_Q2 {
 			System.out.println("4. Find the product with the lowest quantity");
 			System.out.println("5. Find the product with the highest price");
 			System.out.println("6. Exit");
-
 		}
+
+		input.close();
 	}
 
 	private static String nameCheck(String[] userInput) {
