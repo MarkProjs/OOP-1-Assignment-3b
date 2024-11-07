@@ -36,8 +36,67 @@ public class A3_Q2 {
 			System.out.println("4. Find the product with the lowest quantity");
 			System.out.println("5. Find the product with the highest price");
 			System.out.println("6. Exit");
+			System.out.print("Enter your choice: ");
+			int userInput = input.nextInt();
+			if (userInput ==1) {
+				System.out.println("Product List: ");
+				for(int i = 0; i < productQuantity.length; i++) {
+					System.out.println("\t"+"Product " + (i+1) + ":");
+					System.out.println("\t"+"Name: "+ productName[i]);
+					System.out.println("\t"+"Price: $"+String.format("%.1f", productPrices[i]));
+					System.out.println("\t"+"Quantity: "+ productQuantity[i]);
+					System.out.println();
+					System.out.println("-------------------------------------");
+				}
+			} else if(userInput == 2) {
+				System.out.print("Enter the product number (1-5) to update quantity: ");
+				int numProduct = input.nextInt();
+				System.out.print("Enter new quantity for "+ productName[numProduct -1]);
+				int qtyProduct = input.nextInt();
+				productQuantity[numProduct -1] = qtyProduct;
+				System.out.println("Quantity updated successfully!");
+			} else if (userInput == 3){
+				System.out.print("Enter the name of the product to search for: ");
+				String nameSearch = input.nextLine();
+				int productLoc = 0;
+				for (int i = 0; i < productName.length; i++) {
+					if(productName[i].equals(nameSearch.toLowerCase())) {
+						productLoc = i;
+						System.out.println("Product Found: ");
+					} else {
+						System.out.println("Unfortunately, we do not have the product at the moment!");
+					}
+				}
+				if(productLoc != 0) {
+					System.out.println("\t"+ "Name: " + productName[productLoc]);
+					System.out.println("\t"+"Price: " + productPrices[productLoc]);
+					System.out.println("\t"+"Quantity: " + productQuantity[productLoc]);
+				}
+			} else if (userInput == 4) {
+				int lowQtyIndex = searchLowestIndex(productQuantity);
+				if( lowQtyIndex != -1) {
+					System.out.println("Product with the Lowest Quantity:");
+					System.out.println("\t"+"Name: " + productName[lowQtyIndex]);
+					System.out.println("\t"+"Price: " + "$"+ String.format("%.1f", productPrices[lowQtyIndex]));
+					System.out.println("\t"+"Quantity: " + productQuantity[lowQtyIndex]);
+				} else {
+					System.out.println("The inventory is empty!");
+				}
+			} else if (userInput == 5) {
+				int highValueIndex = searchHighestIndex(productPrices);
+				if(highValueIndex != -1) {
+					System.out.println("Product with the Highest Price: ");
+					System.out.println("\t"+"Name: "+ productName[highValueIndex]);
+					System.out.println("\t"+"Price: "+"$"+String.format("%.1f", productPrices[highValueIndex]));
+					System.out.println("\t"+"Quantity: " + productQuantity[highValueIndex]);
+				} else {
+					System.out.println("The inventory is empty!");
+				}
+			}else if (userInput == 6) {
+				System.out.println("Thank you for using the Inventory Management System! Goodbye!");
+				exitProgram =true;
+			}
 		}
-
 		input.close();
 	}
 
@@ -48,8 +107,33 @@ public class A3_Q2 {
 		} else {
 			productName = userInput[userInput.length -1];
 		}
-
 		return productName;
+	}
+
+	private static int searchHighestIndex(double[] numArray) {
+		if (numArray.length == 0) {
+			return -1;
+		}
+		int maxIndex = 0;
+		for(int i = 0; i < numArray.length;i++) {
+			if(numArray[i] > numArray[maxIndex]) {
+				maxIndex = i;
+			}
+		}
+		return maxIndex;
+	}
+
+	private static int searchLowestIndex(int[] numArray) {
+		if (numArray.length == 0) {
+			return -1;
+		}
+		int minIndex = 0;
+		for(int i = 0; i < numArray.length;i++) {
+			if(numArray[i] < numArray[minIndex]) {
+				minIndex = i;
+			}
+		}
+		return minIndex;
 	}
 
 }
