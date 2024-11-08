@@ -5,7 +5,7 @@
 //-------------------------
 
 //Java program that will manage an inventory of 5 products. Each products has a name, price, and quantity in stock.
-//The program can update, display, and search for such product.
+//The program can update, display, and search for each product.
 import java.util.Scanner;
 import java.util.Arrays;
 public class A3_Q2 {
@@ -23,7 +23,7 @@ public class A3_Q2 {
 			String userInput = input.nextLine();
 			String[] userInputArr = userInput.split(" ");
 			productName[i] = nameCheck(userInputArr);
-			productPrices[i] = Integer.parseInt(userInputArr[0]);
+			productPrices[i] =Double.parseDouble(userInputArr[0]);
 			productQuantity[i] = Integer.parseInt(userInputArr[1]);
 		}
 		System.out.println();
@@ -51,26 +51,30 @@ public class A3_Q2 {
 			} else if(userInput == 2) {
 				System.out.print("Enter the product number (1-5) to update quantity: ");
 				int numProduct = input.nextInt();
-				System.out.print("Enter new quantity for "+ productName[numProduct -1]);
+				System.out.print("Enter new quantity for "+ productName[numProduct -1]+ ": ");
 				int qtyProduct = input.nextInt();
 				productQuantity[numProduct -1] = qtyProduct;
 				System.out.println("Quantity updated successfully!");
+				System.out.println();
 			} else if (userInput == 3){
+				input.nextLine();
 				System.out.print("Enter the name of the product to search for: ");
 				String nameSearch = input.nextLine();
-				int productLoc = 0;
+				int productLoc = -1;
 				for (int i = 0; i < productName.length; i++) {
-					if(productName[i].equals(nameSearch.toLowerCase())) {
+					if(productName[i].equalsIgnoreCase(nameSearch)) {
 						productLoc = i;
-						System.out.println("Product Found: ");
-					} else {
-						System.out.println("Unfortunately, we do not have the product at the moment!");
+						break;
 					}
 				}
-				if(productLoc != 0) {
+				if(productLoc != -1) {
+					System.out.println("Product Found: ");
 					System.out.println("\t"+ "Name: " + productName[productLoc]);
-					System.out.println("\t"+"Price: " + productPrices[productLoc]);
+					System.out.println("\t"+"Price: " + "$"+ String.format("%.1f", productPrices[productLoc]));
 					System.out.println("\t"+"Quantity: " + productQuantity[productLoc]);
+					System.out.println();
+				} else {
+					System.out.println("Product Not Found!");
 				}
 			} else if (userInput == 4) {
 				int lowQtyIndex = searchLowestIndex(productQuantity);
@@ -79,6 +83,7 @@ public class A3_Q2 {
 					System.out.println("\t"+"Name: " + productName[lowQtyIndex]);
 					System.out.println("\t"+"Price: " + "$"+ String.format("%.1f", productPrices[lowQtyIndex]));
 					System.out.println("\t"+"Quantity: " + productQuantity[lowQtyIndex]);
+					System.out.println();
 				} else {
 					System.out.println("The inventory is empty!");
 				}
@@ -89,12 +94,15 @@ public class A3_Q2 {
 					System.out.println("\t"+"Name: "+ productName[highValueIndex]);
 					System.out.println("\t"+"Price: "+"$"+String.format("%.1f", productPrices[highValueIndex]));
 					System.out.println("\t"+"Quantity: " + productQuantity[highValueIndex]);
+					System.out.println();
 				} else {
 					System.out.println("The inventory is empty!");
 				}
 			}else if (userInput == 6) {
 				System.out.println("Thank you for using the Inventory Management System! Goodbye!");
 				exitProgram =true;
+			} else {
+				System.out.println("Invalid input! Please try again!");
 			}
 		}
 		input.close();
